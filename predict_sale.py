@@ -23,7 +23,7 @@ def predictSaleFunc(prediction_data):
 	int_features = [rate, sale1, sale2]
 	final_features = [np.array(int_features)]
 	prediction = model.predict(final_features)
-	output = round(prediction[0], 2)        
+	output = str(round(prediction[0], 2))
 	predicted_data = {
 	"sale3": output
 	}
