@@ -1,6 +1,6 @@
 import os,sys
 import unittest
-os.chdir('../')
+sys.path.append(os.path.abspath('..'))
 from server import app
 
 class BasicTests(unittest.TestCase):
@@ -11,9 +11,6 @@ class BasicTests(unittest.TestCase):
  
     # executed prior to each test
     def setUp(self):
-        app.config['TESTING'] = True
-        app.config['WTF_CSRF_ENABLED'] = False
-        app.config['DEBUG'] = False
         self.app = app.test_client()
         
  
@@ -30,3 +27,7 @@ class BasicTests(unittest.TestCase):
         response = self.app.get('/', follow_redirects=True)
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'Sales Forecasting', response.data)
+
+
+if __name__ == "__main__":
+    unittest.main()

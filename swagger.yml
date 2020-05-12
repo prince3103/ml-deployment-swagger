@@ -1,8 +1,8 @@
 swagger: "2.0"
 info:
-  description: This is the swagger file that goes with our server code
+  description: This App predicts the sale of a month using ML Model
   version: "1.0.0"
-  title: Swagger Rest Article
+  title: Sales Forecasting Web App
 consumes:
   - application/json
 produces:
@@ -22,7 +22,7 @@ paths:
       parameters:
         - name: prediction_data
           in: body
-          description: Sale forecast data
+          description: data for forecasting sale
           required: True
           schema:
             type: object
@@ -36,6 +36,10 @@ paths:
               rate:
                 type: string
                 description: Rate
+            example:   # Sample object
+              sale1: "287"
+              sale2: "345"
+              rate: "4"
       responses:
         200:
           description: Successfully predicted sale for third month
@@ -43,3 +47,5 @@ paths:
             properties:
               sale3:
                 type: string
+            example:   # Sample object
+              sale3: "486.73"
