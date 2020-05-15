@@ -10,20 +10,18 @@ import numpy as np
 
 
 
-def predictSaleFunc(prediction_data):
+def predictSaleFunc(rate, sale1, sale2):
 	"""
      This function responds to request for /api/predict_sale
      to predict sale for third month
      return: json string for sale of third month
 	"""
+	print(rate)
 	model = pickle.load(open('model.pkl', 'rb'))
-	sale1 = float(prediction_data.get("sale1", None))
-	sale2 = float(prediction_data.get("sale2", None))
-	rate = float(prediction_data.get("rate", None))
 	int_features = [rate, sale1, sale2]
 	final_features = [np.array(int_features)]
 	prediction = model.predict(final_features)
-	output = str(round(prediction[0], 2))
+	output = round(prediction[0], 2)
 	predicted_data = {
 	"sale3": output
 	}

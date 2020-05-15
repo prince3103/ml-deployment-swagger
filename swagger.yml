@@ -1,51 +1,63 @@
-swagger: "2.0"
+openapi: 3.0.0
 info:
-  description: This App predicts the sale of a month using ML Model
+  description: API to predict the sale for third month using ML Model
   version: "1.0.0"
-  title: Sales Forecasting Web App
-consumes:
-  - application/json
-produces:
-  - application/json
-
-basePath: /api
+  title: Sales Forecast
+servers:
+  - url: https://ml-deployment-swagger.herokuapp.com/api/v1/sales_forecast
+    description: Main (production) server
+  - url: http://0.0.0.0:5000/api/v1/sales_forecast
+    description: Internal staging server for testing
 
 # Paths supported by the server application
 paths:
-  /predict:
-    post:
+  /sale:
+    get:
       operationId: predict_sale.predictSaleFunc
       tags:
-        - predict
-      summary: Predicts the price of sale
-      description: Predict the price of sale in third month based on sale in first and second month and rate
+        - sale
+      summary: Returns the predicted sale's price
+      description: Returns the predicted sale's price of third month based on sale in first, second month and rate of interest.
       parameters:
-        - name: prediction_data
-          in: body
-          description: data for forecasting sale
+        - name: rate
+          in: query
+          description: rate of interest
+          schema:
+            type: number
+          example:
+            4
+          style: form
+          explode: true
           required: True
+        - name: sale1
+          in: query
+          description: sale in first month
           schema:
-            type: object
-            properties:
-              sale1:
-                type: string
-                description: Sale for first month
-              sale2:
-                type: string
-                description: Sale for second month
-              rate:
-                type: string
-                description: Rate
-            example:   # Sample object
-              sale1: "287"
-              sale2: "345"
-              rate: "4"
+            type: number
+          example:
+            234.44
+          style: form
+          explode: true
+          required: True
+        - name: sale2
+          in: query
+          description: sale in second month
+          schema:
+            type: number
+          example:
+            254.84
+          style: form
+          explode: true
+          required: True
       responses:
-        200:
-          description: Successfully predicted sale for third month
-          schema:
-            properties:
-              sale3:
-                type: string
-            example:   # Sample object
-              sale3: "486.73"
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sale3:
+                    type: number
+                example:
+                  "sale3": 738.49

@@ -13,18 +13,15 @@ ns.model = (function() {
 
     // Return the API
     return {
-        'predictSale': function(sale1, sale2, rate) {
+        'predictSale': function(rate, sale1, sale2) {
             let ajax_options = {
-                type: 'POST',
-                url: 'api/predict',
+                type: 'GET',
+                url: 'api/v1/sales_forecast/sale',
+                data: 'rate='+rate +'&sale1='+sale1 +'&sale2='+sale2,
+                contentType: "application/json; charset=utf-8",
                 accepts: 'application/json',
-                contentType: 'application/json',
                 dataType: 'json',
-                data: JSON.stringify({
-                    'sale1': sale1,
-                    'sale2': sale2,
-                    'rate': rate
-                })
+                
             };
             $.ajax(ajax_options)
             .done(function(data) {
@@ -47,7 +44,12 @@ ns.view = (function() {
             $predicted_data_para.html("Predicted sale for the third month is $" + predicted_data['sale3']);
         },
         error: function(error_msg) {
-            $predicted_data_para.html(error_msg);
+            if(error_msg=="Wrong type, expected 'number' for query parameter 'rate'")
+                $predicted_data_para.html("Error: Please enter a valid number in 'rate' field")
+            else if(error_msg=="Wrong type, expected 'number' for query parameter 'sale1'")
+                $predicted_data_para.html("Error: Please enter a valid number in 'sales in first month' field")
+            else if(error_msg=="Wrong type, expected 'number' for query parameter 'sale2'")
+                $predicted_data_para.html("Error: Please enter a valid number in 'sales in second month' field")
         }
     };
 }());
@@ -59,22 +61,29 @@ ns.controller = (function(m, v) {
     let model = m,
         view = v,
         $event_pump = $('body'),
-        $predicted_data_para = $("#predicted_data");
+        $predicted_data_para = $(".predicted_data_para");
 
     // Validate input
-    function validate(sale1, sale2, rate) {
+    function validate(rate, sale1, sale2) {
         return sale1 !== "" && sale2 !== "" && rate !== "";
     }
 
     $(".predict-btn").click(function(e) {
+        $predicted_data_para.html("")
     	e.preventDefault();
-    	let sale1 = $("#sale1_field").val(),
-    	sale2 = $("#sale2_field").val(),
-    	rate = $("#rate_field").val();
-    	if (validate(sale1, sale2, rate)) {
-            model.predictSale(sale1, sale2, rate)
+    	let rate = $("#rate_field").val(),
+        sale1 = $("#sale1_field").val(),
+    	sale2 = $("#sale2_field").val();
+        
+    	if (validate(rate, sale1, sale2)) {
+            model.predictSale(rate, sale1, sale2)
         } else {
-            alert('Problem with sale or rate input');
+            if(rate==="")
+                $predicted_data_para.html('Error: "rate" Field cannot be blank');
+            else if(sale1==="")
+                $predicted_data_para.html('Error: "sales in first month" Field cannot be blank');
+            else if(sale2==="")
+                $predicted_data_para.html('Error: "sales in second month" Field cannot be blank');
         }
 
     });
@@ -86,7 +95,7 @@ ns.controller = (function(m, v) {
 
     $event_pump.on('model_error', function(e, xhr, textStatus, errorThrown) {
         let error_msg = textStatus + ': ' + errorThrown + ' - ' + xhr.responseJSON.detail;
-        view.error(error_msg);
+        view.error(xhr.responseJSON.detail);
         console.log(error_msg);
     })
 
