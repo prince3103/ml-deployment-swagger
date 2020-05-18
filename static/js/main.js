@@ -41,7 +41,7 @@ ns.view = (function() {
     let $predicted_data_para = $(".predicted_data_para");
     return {
         updateMessage: function(predicted_data) {
-            $predicted_data_para.html("Predicted sale for the third month is $" + predicted_data['predict_sale']);
+            $predicted_data_para.html("Predicted sale for the third month is $" + predicted_data['predicted_sale']);
         },
         error: function(error_msg) {
             if(error_msg=="Wrong type, expected 'number' for query parameter 'rate'")

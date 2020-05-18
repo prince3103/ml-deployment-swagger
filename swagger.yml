@@ -24,8 +24,6 @@ paths:
           description: rate of interest
           schema:
             type: number
-          example:
-            4
           style: form
           explode: true
           required: True
@@ -34,8 +32,6 @@ paths:
           description: sale in first month
           schema:
             type: number
-          example:
-            234.44
           style: form
           explode: true
           required: True
@@ -44,8 +40,6 @@ paths:
           description: sale in second month
           schema:
             type: number
-          example:
-            254.84
           style: form
           explode: true
           required: True
@@ -57,8 +51,8 @@ paths:
               schema:
                 type: object
                 properties:
-                  predict_sale:
+                  predicted_sale:
                     type: number
                     description: predicted sale for third month
                 example:
-                  "predict_sale": 738.49
+                  "predicted_sale": 738.49
