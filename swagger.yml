@@ -57,7 +57,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  sale3:
+                  predict_sale:
                     type: number
                 example:
-                  "sale3": 738.49
+                  "predict_sale": 738.49

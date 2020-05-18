@@ -23,6 +23,6 @@ def predictSaleFunc(rate, sale1, sale2):
 	prediction = model.predict(final_features)
 	output = round(prediction[0], 2)
 	predicted_data = {
-	"sale3": output
+	"predict_sale": output
 	}
 	return predicted_data, 200
