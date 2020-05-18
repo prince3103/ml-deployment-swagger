@@ -24,24 +24,18 @@ paths:
           description: rate of interest
           schema:
             type: number
-          style: form
-          explode: true
           required: True
         - name: sale1
           in: query
           description: sale in first month
           schema:
             type: number
-          style: form
-          explode: true
           required: True
         - name: sale2
           in: query
           description: sale in second month
           schema:
             type: number
-          style: form
-          explode: true
           required: True
       responses:
         '200':
@@ -56,3 +50,5 @@ paths:
                     description: predicted sale for third month
                 example:
                   "predicted_sale": 738.49
+        '400':
+          description: "Wrong type, expected 'number' for query parameter 'sale1'"
