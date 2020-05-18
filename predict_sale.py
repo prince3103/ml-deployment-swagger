@@ -16,7 +16,6 @@ def predictSaleFunc(rate, sale1, sale2):
      to predict sale for third month
      return: json string for sale of third month
 	"""
-	print(rate)
 	model = pickle.load(open('model.pickle', 'rb'))
 	int_features = [rate, sale1, sale2]
 	final_features = [np.array(int_features)]

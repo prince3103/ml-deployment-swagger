@@ -59,5 +59,6 @@ paths:
                 properties:
                   predict_sale:
                     type: number
+                    description: predicted sale for third month
                 example:
                   "predict_sale": 738.49
